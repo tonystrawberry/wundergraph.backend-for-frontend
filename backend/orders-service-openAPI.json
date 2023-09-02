@@ -1,0 +1,162 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Orders Microservice API",
+    "version": "1.0.0",
+    "description": "API for managing orders in the ecommerce store"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3002",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/orders": {
+      "get": {
+        "summary": "Get all orders",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "summary": "Get order by ID",
+        "description": "Returns an order object with the specified ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the order to retrieve",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. Returns an order object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update order status",
+        "description": "Updates the status of an order with the specified ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the order to update",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "New status for the order",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderStatus"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response. Returns the updated order object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "integer"
+                },
+                "quantity": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "shippingAddress": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "zip": {
+                "type": "string"
+              }
+            }
+          },
+          "deliveryDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  }
+}

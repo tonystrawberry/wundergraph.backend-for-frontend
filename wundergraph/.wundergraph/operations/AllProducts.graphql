@@ -1,0 +1,8 @@
+query AllProducts {
+  products: products_getProducts {
+    id
+    name
+    price
+    description
+  }
+}

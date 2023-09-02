@@ -1,0 +1,18 @@
+query AllOrders {
+  orders: orders_getOrders {
+    id
+    items {
+      productId
+      quantity
+    }
+    status
+    deliveryDate
+    shippingAddress {
+      name
+      address
+      city
+      state
+      zip
+    }
+  }
+}
